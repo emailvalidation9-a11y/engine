@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - email-validator1
+      - email-validator2
+      - email-validator3
+    networks:
+      - email-validation-network
+
+  email-validator1:
+    build: .
+    environment:
+      - NODE_ENV=production
+      - INSTANCE_ID=1
+    depends_on:
+      - redis
+    networks:
+      - email-validation-network
+
+  email-validator2:
+    build: .
+    environment:
+      - NODE_ENV=production
+      - INSTANCE_ID=2
+    depends_on:
+      - redis
+    networks:
+      - email-validation-network
+
+  email-validator3:
+    build: .
+    environment:
+      - NODE_ENV=production
+      - INSTANCE_ID=3
+    depends_on:
+      - redis
+    networks:
+      - email-validation-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - email-validation-network
+
+networks:
+  email-validation-network:
+    driver: bridge

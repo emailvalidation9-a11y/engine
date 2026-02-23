@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Validation System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Email Validation System</h1>
+            <p>Validate email addresses in real-time or bulk</p>
+        </header>
+
+        <main>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="single">Single Email</button>
+                <button class="tab-button" data-tab="bulk">Bulk Validation</button>
+                <button class="tab-button" data-tab="csv">CSV Upload</button>
+                <button class="tab-button" data-tab="jobs">Job Tracking</button>
+            </div>
+
+            <div class="tab-content">
+                <!-- Single Email Validation Tab -->
+                <div id="single-tab" class="tab-pane active">
+                    <div class="form-group">
+                        <label for="single-email">Email Address</label>
+                        <input type="email" id="single-email" placeholder="Enter email address">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="skip-smtp"> Skip SMTP verification (faster results)
+                        </label>
+                    </div>
+                    <button id="validate-single" class="btn primary">Validate Email</button>
+                    
+                    <div id="single-result" class="result-container hidden">
+                        <h3>Validation Result</h3>
+                        <div id="single-result-content"></div>
+                    </div>
+                </div>
+
+                <!-- Bulk Validation Tab -->
+                <div id="bulk-tab" class="tab-pane">
+                    <div class="form-group">
+                        <label for="bulk-emails">Email Addresses (one per line)</label>
+                        <textarea id="bulk-emails" rows="10" placeholder="Enter email addresses, one per line&#10;example1@gmail.com&#10;example2@yahoo.com&#10;example3@outlook.com"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="bulk-skip-smtp"> Skip SMTP verification (faster results)
+                        </label>
+                    </div>
+                    <button id="validate-bulk" class="btn primary">Validate Emails</button>
+                    
+                    <div id="bulk-result" class="result-container hidden">
+                        <h3>Bulk Validation Result</h3>
+                        <div id="bulk-result-content"></div>
+                    </div>
+                </div>
+
+                <!-- CSV Upload Tab -->
+                <div id="csv-tab" class="tab-pane">
+                    <div class="form-group">
+                        <label for="csv-file">CSV File</label>
+                        <input type="file" id="csv-file" accept=".csv">
+                    </div>
+                    <div class="form-group">
+                        <label for="email-column">Email Column Name</label>
+                        <select id="email-column" class="hidden">
+                            <option value="">Select email column</option>
+                        </select>
+                        <input type="text" id="email-column-input" placeholder="Enter column name containing emails (default: email)" value="email">
+                        <div id="column-warning" class="warning hidden">Please select the column that contains email addresses</div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="csv-skip-smtp"> Skip SMTP verification (faster results)
+                        </label>
+                    </div>
+                    <button id="validate-csv" class="btn primary">Validate CSV</button>
+                    
+                    <div id="csv-result" class="result-container hidden">
+                        <h3>CSV Validation Result</h3>
+                        <div id="csv-result-content"></div>
+                        <div id="csv-download-link" class="hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Job Tracking Tab -->
+                <div id="jobs-tab" class="tab-pane">
+                    <div class="form-group">
+                        <label for="job-id">Job ID</label>
+                        <input type="text" id="job-id" placeholder="Enter job ID">
+                    </div>
+                    <button id="check-job" class="btn primary">Check Job Status</button>
+                    <button id="get-results" class="btn secondary">Get Results (JSON)</button>
+                    <button id="get-csv-results" class="btn secondary">Download Results (CSV)</button>
+                    
+                    <div id="job-result" class="result-container hidden">
+                        <h3>Job Information</h3>
+                        <div id="job-result-content"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Email Validation System &copy; 2025</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

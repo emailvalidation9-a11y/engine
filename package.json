@@ -1,0 +1,25 @@
+{
+  "name": "email-validator-engine",
+  "version": "1.0.0",
+  "description": "Email validation engine with real-time and bulk processing",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "dns-socket": "^4.2.0",
+    "express": "^4.18.0",
+    "form-data": "^4.0.4",
+    "json2csv": "^5.0.7",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.6.7",
+    "redis": "^4.6.0",
+    "smtp-client": "^0.4.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
