@@ -7,6 +7,7 @@ A high-performance, standalone email validation engine with real-time single and
 ## ✨ Features
 
 ### Core Validation Pipeline
+- **Syntax Check** — RFC 5322 compliant regex, local-part length limits, domain format validation
 - **MX Record Lookup** — Multi-resolver DNS queries (Google, Cloudflare, OpenDNS) with A-record fallback per RFC 5321 §5
 - **DNS Extras** — SPF and DMARC record detection, IPv4/IPv6 availability
 - **SMTP Verification** — Direct mailbox probe with STARTTLS upgrade, multi-port support (25, 587, 465), and intelligent retry logic
