@@ -3,23 +3,32 @@
   "version": "1.0.0",
   "description": "Email validation engine with real-time and bulk processing",
   "main": "app.js",
+  "bin": "launcher.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "build": "pkg . --targets node18-win-x64 --output dist/EmailValidator.exe --compress GZip"
+  },
+  "pkg": {
+    "assets": [
+      "public/**/*",
+      "validator.js",
+      "node_modules/chardet/encoding/**/*",
+      "node_modules/iconv-lite/encodings/**/*"
+    ],
+    "outputPath": "dist"
   },
   "dependencies": {
+    "chardet": "^2.1.1",
     "csv-parser": "^3.0.0",
-    "dns-socket": "^4.2.0",
-    "express": "^4.18.0",
-    "form-data": "^4.0.4",
+    "express": "^4.22.1",
+    "iconv-lite": "^0.7.2",
     "json2csv": "^5.0.7",
     "multer": "^1.4.5-lts.1",
-    "node-fetch": "^2.6.7",
-    "redis": "^4.6.0",
-    "smtp-client": "^0.4.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@yao-pkg/pkg": "^6.18.1",
     "nodemon": "^2.0.20"
   }
 }

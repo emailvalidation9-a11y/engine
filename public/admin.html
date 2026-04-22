@@ -235,56 +235,32 @@
             });
         }
         
-        // Refresh dashboard data
-        function refreshDashboard() {
-            // In a real implementation, this would fetch data from the server
-            // For demo purposes, we'll simulate some data
-            
-            // Add some sample jobs if none exist
-            if (jobs.size === 0) {
-                // Generate sample jobs
-                for (let i = 0; i < 5; i++) {
-                    const jobId = 'job-' + Math.random().toString(36).substr(2, 9);
-                    const statuses = ['queued', 'running', 'completed', 'failed'];
-                    const status = statuses[Math.floor(Math.random() * statuses.length)];
-                    const total = Math.floor(Math.random() * 1000) + 100;
-                    const completed = status === 'completed' ? total : 
-                                    status === 'failed' ? 0 : 
-                                    Math.floor(Math.random() * total);
-                    
-                    jobs.set(jobId, {
-                        id: jobId,
-                        status: status,
-                        total: total,
-                        completed: completed,
-                        createdAt: new Date(Date.now() - Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000)),
-                        finishedAt: status === 'completed' || status === 'failed' ? 
-                                   new Date(Date.now() - Math.floor(Math.random() * 24 * 60 * 60 * 1000)) : 
-                                   null
-                    });
+        // Refresh dashboard data from real API
+        async function refreshDashboard() {
+            try {
+                // Fetch stats from the real API
+                const statsResponse = await fetch('/api/stats');
+                if (statsResponse.ok) {
+                    const stats = await statsResponse.json();
+                    document.getElementById('total-jobs').textContent = stats.totalJobs || 0;
+                    document.getElementById('active-jobs').textContent = stats.activeJobs || 0;
+                    document.getElementById('completed-jobs').textContent = stats.completedJobs || 0;
+                    document.getElementById('failed-jobs').textContent = stats.failedJobs || 0;
                 }
-            }
-            
-            // Randomly update some job statuses for demo
-            if (Math.random() > 0.7) {
-                const jobIds = Array.from(jobs.keys());
-                if (jobIds.length > 0) {
-                    const randomJobId = jobIds[Math.floor(Math.random() * jobIds.length)];
-                    const job = jobs.get(randomJobId);
-                    if (job.status === 'running') {
-                        job.status = Math.random() > 0.5 ? 'completed' : 'failed';
-                        job.finishedAt = new Date();
-                        job.completed = job.status === 'completed' ? job.total : job.completed;
-                    } else if (job.status === 'queued') {
-                        job.status = 'running';
-                    }
-                    jobs.set(randomJobId, job);
+
+                // Fetch jobs from the real API
+                const jobsResponse = await fetch('/api/jobs');
+                if (jobsResponse.ok) {
+                    const jobsArray = await jobsResponse.json();
+                    jobs.clear();
+                    jobsArray.forEach(job => jobs.set(job.id, job));
+                    updateJobsTable();
                 }
+            } catch (error) {
+                console.error('Error fetching dashboard data:', error);
             }
-            
-            updateStats();
-            updateJobsTable();
         }
+
         
         // Event Listeners
         refreshBtn.addEventListener('click', refreshDashboard);
